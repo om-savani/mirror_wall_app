@@ -28,19 +28,13 @@ class _WebPageState extends State<WebPage> {
         actions: [
           IconButton(
             onPressed: () async {
-              if (webViewController != null &&
-                  await webViewController!.canGoBack()) {
-                webViewController!.goBack();
-              }
+              await webViewController!.goBack();
             },
             icon: const Icon(Icons.arrow_back_ios_new),
           ),
           IconButton(
             onPressed: () async {
-              if (webViewController != null &&
-                  await webViewController!.canGoForward()) {
-                webViewController!.goForward();
-              }
+              await webViewController!.goForward();
             },
             icon: const Icon(Icons.arrow_forward_ios),
           ),
