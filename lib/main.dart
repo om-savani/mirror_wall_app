@@ -1,3 +1,4 @@
+import 'package:adhaar_app/routes/all_routes.dart';
 import 'package:adhaar_app/screens/home/prrovider/home_provider.dart';
 import 'package:adhaar_app/screens/home/views/home_screen.dart';
 import 'package:adhaar_app/screens/webview/view/web_page.dart';
@@ -19,9 +20,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        routes: {
-          '/': (context) => const HomeScreen(),
-        },
+        routes: AllRoutes.routes,
       ),
     );
   }

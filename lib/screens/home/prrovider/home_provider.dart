@@ -1,11 +1,19 @@
 import 'dart:async';
+import 'package:adhaar_app/helper/shr_helper.dart';
+import 'package:adhaar_app/model/browser_model.dart';
 import 'package:adhaar_app/model/web_models.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class HomeProvider with ChangeNotifier {
+  HomeProvider() {
+    changeUrl();
+  }
+
   Connectivity connectivity = Connectivity();
+  ShrHelper shrHelper = ShrHelper();
   double progress = 0;
+  String url = "https://www.google.com/";
   List<WebModels> webList = [
     WebModels(
       title: "Home",
@@ -28,6 +36,21 @@ class HomeProvider with ChangeNotifier {
       icon: Icons.star,
     ),
   ];
+  List<BrowsersModel> browserList = [
+    BrowsersModel(
+      name: "Google Chrome",
+      url: "https://www.google.com/",
+    ),
+    BrowsersModel(
+      name: "Yahoo",
+      url: "https://in.search.yahoo.com/?fr2=inr",
+    ),
+    BrowsersModel(
+      name: "DuckDuckGo",
+      url: "https://duckduckgo.com/",
+    ),
+  ];
+
   bool isConnected = false;
   void checkConnection() async {
     StreamSubscription<List<ConnectivityResult>> results = (await Connectivity()
@@ -44,6 +67,11 @@ class HomeProvider with ChangeNotifier {
 
   void changeProgress(double value) {
     progress = value;
+    notifyListeners();
+  }
+
+  Future<void> changeUrl() async {
+    url = await shrHelper.getUrl();
     notifyListeners();
   }
 }
