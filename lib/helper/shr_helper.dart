@@ -8,6 +8,17 @@ class ShrHelper {
 
   Future<String> getUrl() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString("url") ?? "https://www.google.com/";
+    String savedUrl = prefs.getString("url") ?? "https://www.google.com/";
+    return savedUrl;
+  }
+
+  Future<void> setThemeMode(bool isDark) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("isDark", isDark);
+  }
+
+  Future<bool> getThemeMode() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool("isDark") ?? false;
   }
 }

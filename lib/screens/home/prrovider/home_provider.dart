@@ -8,12 +8,15 @@ import 'package:flutter/material.dart';
 class HomeProvider with ChangeNotifier {
   HomeProvider() {
     changeUrl();
+    getThemeMode();
   }
 
   Connectivity connectivity = Connectivity();
   ShrHelper shrHelper = ShrHelper();
   double progress = 0;
-  String url = "https://www.google.com/";
+  late String url;
+  ThemeMode themeMode = ThemeMode.light;
+  bool isDark = false;
   List<WebModels> webList = [
     WebModels(
       title: "Home",
@@ -52,6 +55,7 @@ class HomeProvider with ChangeNotifier {
   ];
 
   bool isConnected = false;
+
   void checkConnection() async {
     StreamSubscription<List<ConnectivityResult>> results = (await Connectivity()
         .onConnectivityChanged
@@ -72,6 +76,21 @@ class HomeProvider with ChangeNotifier {
 
   Future<void> changeUrl() async {
     url = await shrHelper.getUrl();
+    print("URL: $url");
+    notifyListeners();
+  }
+
+  changeThemeMode(bool value) async {
+    isDark = value;
+    themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+    shrHelper.setThemeMode(isDark);
+    notifyListeners();
+  }
+
+  void getThemeMode() async {
+    isDark = await shrHelper.getThemeMode();
+    themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+    print("Loaded ThemeMode: $themeMode");
     notifyListeners();
   }
 }
