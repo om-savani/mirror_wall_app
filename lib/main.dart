@@ -30,18 +30,10 @@ class MyApp extends StatelessWidget {
         ],
         child: Consumer<HomeProvider>(
           builder: (BuildContext context, value, Widget? child) {
-            value.changeUrl();
+            value.initMethods();
             value.url = value.shrHelper.getUrl() as String;
             return MaterialApp(
-              // darkTheme: ThemeData(
-              //   brightness: value.isDark ? Brightness.dark : Brightness.light,
-              // ),
-              // themeMode: value.themeMode,
-              // theme: ThemeData(
-              //   useMaterial3: true,
-              //   brightness: value.isDark ? Brightness.dark : Brightness.light,
-              // ),
-              themeMode: ThemeMode.system,
+              themeMode: value.themeMode,
               debugShowCheckedModeBanner: false,
               routes: AllRoutes.routes,
             );

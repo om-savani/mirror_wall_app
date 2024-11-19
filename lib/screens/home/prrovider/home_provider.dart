@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'package:adhaar_app/helper/shr_helper.dart';
 import 'package:adhaar_app/model/browser_model.dart';
-import 'package:adhaar_app/model/web_models.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class HomeProvider with ChangeNotifier {
   HomeProvider() {
-    changeUrl();
-    getThemeMode();
+    initMethods();
   }
 
   Connectivity connectivity = Connectivity();
@@ -17,28 +15,7 @@ class HomeProvider with ChangeNotifier {
   late String url;
   ThemeMode themeMode = ThemeMode.light;
   bool isDark = false;
-  List<WebModels> webList = [
-    WebModels(
-      title: "Home",
-      url: "https://hiddenleaf.to/home/",
-      icon: Icons.home,
-    ),
-    WebModels(
-      title: "Hindi Dubbed",
-      url: "https://hiddenleaf.to/hindidubbed/",
-      icon: Icons.movie,
-    ),
-    WebModels(
-      title: "Trending",
-      url: "https://hiddenleaf.to/trendinganime/",
-      icon: Icons.trending_up,
-    ),
-    WebModels(
-      title: "Top Rated",
-      url: "https://hiddenleaf.to/bestratedanime/",
-      icon: Icons.star,
-    ),
-  ];
+  List<String> searchHistory = [];
   List<BrowsersModel> browserList = [
     BrowsersModel(
       name: "Google Chrome",
@@ -69,6 +46,12 @@ class HomeProvider with ChangeNotifier {
     }));
   }
 
+  void initMethods() {
+    changeUrl();
+    getThemeMode();
+    getSearchHistory();
+  }
+
   void changeProgress(double value) {
     progress = value;
     notifyListeners();
@@ -91,6 +74,17 @@ class HomeProvider with ChangeNotifier {
     isDark = await shrHelper.getThemeMode();
     themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
     print("Loaded ThemeMode: $themeMode");
+    notifyListeners();
+  }
+
+  void saveSearchHistory(String value) async {
+    searchHistory.add(value);
+    shrHelper.setSearchHistory(searchHistory);
+    notifyListeners();
+  }
+
+  void getSearchHistory() async {
+    searchHistory = await shrHelper.getSearchHistory();
     notifyListeners();
   }
 }

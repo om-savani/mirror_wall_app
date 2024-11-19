@@ -1,3 +1,4 @@
+import 'package:adhaar_app/routes/all_routes.dart';
 import 'package:adhaar_app/screens/home/prrovider/home_provider.dart';
 import 'package:adhaar_app/utils/extentions/sizedbox_extention.dart';
 import 'package:flutter/foundation.dart';
@@ -51,7 +52,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: TextFormField(
+            decoration: const InputDecoration(
+              hintText: "Search",
+              prefixIcon: Icon(Icons.search),
+            ),
+            onFieldSubmitted: (value) {
+              if (webViewController != null) {
+                webViewController!.loadUrl(
+                  urlRequest: URLRequest(
+                    url: WebUri("https://www.google.com/search?q=$value"),
+                  ),
+                );
+                read.saveSearchHistory(value);
+              }
+            }),
         actions: [
           IconButton(
             onPressed: () async {
@@ -85,7 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const Divider(),
-              Expanded(
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.25,
                 child: ListView.builder(
                   itemCount: watch.browserList.length,
                   itemBuilder: (context, index) {
@@ -124,6 +140,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ],
+              ),
+              10.h,
+              ListTile(
+                title: const Text("Search History"),
+                trailing: const Icon(Icons.history),
+                onTap: () {
+                  Navigator.of(context).pushNamed(AllRoutes.searchHistory);
+                },
+              ),
+              10.h,
+              ListTile(
+                title: const Text("Bookmark"),
+                trailing: const Icon(Icons.bookmark),
+                onTap: () {
+                  Navigator.of(context).pushNamed(AllRoutes.bookmark);
+                },
               ),
             ],
           ),
