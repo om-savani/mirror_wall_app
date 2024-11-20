@@ -13,9 +13,11 @@ class HomeProvider with ChangeNotifier {
   ShrHelper shrHelper = ShrHelper();
   double progress = 0;
   late String url;
+  String currentUrl = "";
   ThemeMode themeMode = ThemeMode.light;
   bool isDark = false;
   List<String> searchHistory = [];
+  List<String> bookmark = [];
   List<BrowsersModel> browserList = [
     BrowsersModel(
       name: "Google Chrome",
@@ -50,6 +52,7 @@ class HomeProvider with ChangeNotifier {
     changeUrl();
     getThemeMode();
     getSearchHistory();
+    getBookmark();
   }
 
   void changeProgress(double value) {
@@ -59,7 +62,6 @@ class HomeProvider with ChangeNotifier {
 
   Future<void> changeUrl() async {
     url = await shrHelper.getUrl();
-    print("URL: $url");
     notifyListeners();
   }
 
@@ -73,7 +75,6 @@ class HomeProvider with ChangeNotifier {
   void getThemeMode() async {
     isDark = await shrHelper.getThemeMode();
     themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
-    print("Loaded ThemeMode: $themeMode");
     notifyListeners();
   }
 
@@ -87,4 +88,20 @@ class HomeProvider with ChangeNotifier {
     searchHistory = await shrHelper.getSearchHistory();
     notifyListeners();
   }
+
+  void saveBookmark(String value) async {
+    bookmark.add(value);
+    shrHelper.setBookmark(bookmark);
+    notifyListeners();
+  }
+
+  void getBookmark() async {
+    bookmark = await shrHelper.getBookmark();
+    notifyListeners();
+  }
+
+  // void getCurrentUrl(String url) async {
+  //   currentUrl = url;
+  //   notifyListeners();
+  // }
 }

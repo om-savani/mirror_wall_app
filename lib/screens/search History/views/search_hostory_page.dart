@@ -20,7 +20,7 @@ class _SearchHostoryPageState extends State<SearchHostoryPage> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios_new),
         ),
         title: const Text('Search History'),
       ),

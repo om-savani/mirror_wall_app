@@ -18,28 +18,19 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider.value(value: HomeProvider()),
           ],
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            routes: AllRoutes.routes,
+          child: Consumer<HomeProvider>(
+            builder: (BuildContext context, value, Widget? child) {
+              value.initMethods();
+              return MaterialApp(
+                theme: value.isDark ? ThemeData.dark() : ThemeData.light(),
+                // themeMode: ThemeMode.dark,
+                debugShowCheckedModeBanner: false,
+                routes: AllRoutes.routes,
+              );
+            },
           ),
         );
       },
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider.value(value: HomeProvider()),
-        ],
-        child: Consumer<HomeProvider>(
-          builder: (BuildContext context, value, Widget? child) {
-            value.initMethods();
-            value.url = value.shrHelper.getUrl() as String;
-            return MaterialApp(
-              themeMode: value.themeMode,
-              debugShowCheckedModeBanner: false,
-              routes: AllRoutes.routes,
-            );
-          },
-        ),
-      ),
     );
   }
 }

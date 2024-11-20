@@ -31,4 +31,14 @@ class ShrHelper {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getStringList("searchHistory") ?? [];
   }
+
+  Future<void> setBookmark(List<String> bookmaark) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList("bookmark", bookmaark);
+  }
+
+  Future<List<String>> getBookmark() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList("bookmark") ?? [];
+  }
 }

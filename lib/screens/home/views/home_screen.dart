@@ -48,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     read = context.read<HomeProvider>();
     watch = context.watch<HomeProvider>();
-    print("URL====: ${watch.url}");
 
     return Scaffold(
       appBar: AppBar(
@@ -117,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         await read.changeUrl();
                         Navigator.of(context).pop();
                         webViewController?.loadUrl(
-                          urlRequest: URLRequest(url: WebUri(watch.url)),
+                          urlRequest: URLRequest(url: WebUri(watch.url!)),
                         );
                       },
                     );
@@ -135,8 +134,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       webViewController?.setSettings(
                           settings: InAppWebViewSettings());
                       read.changeThemeMode(value);
-                      print("Dark Mode:=== ${watch.isDark}");
-                      print("ThemeMode:=== ${watch.themeMode}");
                     },
                   ),
                 ],
@@ -189,7 +186,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          String? currentUrl = (await webViewController?.getUrl())?.toString();
+          if (currentUrl != null) {
+            read.saveBookmark(currentUrl);
+          } else {
+            print("No URL available to save as bookmark.");
+          }
+        },
         child: const Icon(Icons.bookmark),
       ),
     );
