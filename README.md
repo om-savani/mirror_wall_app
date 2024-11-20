@@ -75,9 +75,6 @@ This project utilizes the following Flutter packages:
 </p>
 
 ## 🎥 Video Demonstration
-<p align="center">
-  <a href="https://github.com/user-attachments/assets/a77e5ac5-5d3c-4227-8740-4c2513d0de8e" target="_blank">
-    Watch Video
-  </a>
-</p>
+  https://github.com/user-attachments/assets/a77e5ac5-5d3c-4227-8740-4c2513d0de8e
+   
 
